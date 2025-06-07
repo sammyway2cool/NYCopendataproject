@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Eviction Information - NYC Eviction Data</title>
+  <title>Eviction Info</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
       margin: 0;
+      background-color: #f4f4f4;
     }
 
     .header {
-      padding: 80px;
+      padding: 60px;
       text-align: center;
       background: #1abc9c;
       color: white;
@@ -23,13 +22,13 @@
 
     .header h1 {
       font-size: 40px;
+      margin-bottom: 10px;
     }
 
     .navbar {
       overflow: hidden;
       background-color: #333;
       position: sticky;
-      position: -webkit-sticky;
       top: 0;
     }
 
@@ -52,84 +51,83 @@
       color: white;
     }
 
-    .filters {
-      margin: 20px;
-      padding: 10px;
-      background: #f1f1f1;
-      border-radius: 8px;
-    }
-
-    .filters label {
-      margin-right: 10px;
-    }
-
-    .filters select {
-      padding: 8px;
-      margin-right: 15px;
-      border-radius: 4px;
-    }
-
     .row {
       display: flex;
       flex-wrap: wrap;
     }
 
     .side {
-      flex: 30%;
+      flex: 25%;
       background-color: #f1f1f1;
       padding: 20px;
     }
 
     .main {
-      flex: 70%;
-      background-color: white;
+      flex: 75%;
       padding: 20px;
+    }
+
+    .searchBox {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .searchBox input {
+      padding: 10px;
+      width: 60%;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .searchBox button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
     .card {
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 10px;
       padding: 20px;
-      margin: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     .card h3 {
-      font-size: 20px;
+      margin-top: 0;
+      color: #2c3e50;
     }
 
-    
-    #myInput {
-      background-image: url('/css/searchicon.png'); /* Search icon */
-      background-position: 10px 12px;
-      background-repeat: no-repeat;
-      width: 100%;
+    .card p {
+      margin: 6px 0;
+      font-size: 15px;
+    }
+
+    /* Simple  card style from your example */
+    .card {
+      background-color: white;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .card p {
+      margin: 6px 0;
       font-size: 16px;
-      padding: 12px 20px 12px 40px;
-      border: 1px solid #ddd;
-      margin-bottom: 12px;
-    }
-
-    #myUL {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #myUL li a {
-      border: 1px solid #ddd;
-      margin-top: -1px;
-      background-color: #f6f6f6;
-      padding: 12px;
-      text-decoration: none;
-      font-size: 18px;
-      color: black;
-      display: block;
-    }
-
-    #myUL li a:hover:not(.header) {
-      background-color: #eee;
     }
 
     .footer {
@@ -138,163 +136,167 @@
       background: #ddd;
     }
 
-   
     @media screen and (max-width: 700px) {
       .row {
         flex-direction: column;
       }
-    }
 
-    @media screen and (max-width: 400px) {
-      .navbar a {
-        float: none;
-        width: 100%;
+      .searchBox input {
+        width: 90%;
       }
     }
   </style>
 </head>
-<body>
-  <header class="header">
-    <h1>Eviction Cases Information</h1>
-    <nav class="navbar">
-      <a href="index.html">Home</a>
-      <a href="info.html" class="active">Information</a>
-      <a href="analysis.html">Analysis</a>
-    </nav>
-  </header>
+<body onload="init()">
 
-  <div class="row">
-    
-    <div class="side">
-      <h2>About Eviction Cases</h2>
-      <p>Explore eviction cases in New York City, filter by borough or year to analyze trends and patterns.</p>
-    </div>
+<div class="header">
+  <h1>Eviction Information</h1>
+  <p>Search NYC eviction cases by address</p>
+</div>
 
-    
-    <div class="main">
-      <section>
-        <h2>Search Eviction Cases</h2>
-        <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for Case Numbers or Addresses...">
-        <ul id="myUL">
-         
-        </ul>
-      </section>
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="info.html" class="active">Information</a>
+  <a href="analysis.html">Analysis</a>
+</div>
 
-      <section>
-        <h2>Explore Eviction Cases</h2>
-        <p>Use the filters below to narrow down eviction cases.</p>
-        <div class="filters">
-          <label for="filterBorough">Borough:</label>
-          <select id="filterBorough">
-            <option value="">All</option>
-            <option>MANHATTAN</option>
-            <option>BRONX</option>
-            <option>BROOKLYN</option>
-            <option>QUEENS</option>
-            <option>STATEN ISLAND</option>
-          </select>
-
-          <label for="filterYear">Year:</label>
-          <select id="filterYear">
-            <option value="">All</option>
-            <option>2017</option>
-            <option>2018</option>
-            <option>2019</option>
-            <option>2020</option>
-            <option>2023</option>
-          </select>
-        </div>
-
-        <div id="evictionCards" class="cards-container">
-         
-        </div>
-      </section>
-    </div>
+<div class="row">
+  <div class="side">
+    <h2>How to Search</h2>
+    <p>Type part of an address like <strong>574 WEST</strong> to find matching eviction records from the NYC database.</p>
   </div>
 
-  <footer class="footer">
-  </footer>
+  <div class="main">
+    <div class="searchBox">
+      <input type="text" id="namesearch" placeholder="Enter address (e.g., 574 WEST)" />
+      <button onclick="searchEvictions()">Search</button>
+    </div>
 
-  <script>
-   
-  const evictionData = [
-  { borough: 'MANHATTAN', year: '2020', address: '123 5th Ave', caseNumber: 'EV12345' },
-  { borough: 'BROOKLYN', year: '2019', address: '456 Bedford St', caseNumber: 'EV67890' },
-  { borough: 'QUEENS', year: '2017', address: '789 Jackson Blvd', caseNumber: 'EV11223' },
-  { borough: 'BRONX', year: '2020', address: '1010 Bronx Rd', caseNumber: 'EV44556' },
-  { borough: 'STATEN ISLAND', year: '2023', address: '2020 Richmond Ave', caseNumber: 'EV78901' },
-  { borough: 'BRONX', year: '2020', address: '1530 ARCHER ROAD', caseNumber: 'EV15641' },
-  { borough: 'MANHATTAN', year: '2017', address: '584 WEST 207TH STREE GRND FL STORE,BSMNT', caseNumber: 'EV60006' },
-  { borough: 'BRONX', year: '2018', address: '806 WESTCHESTER AVENUE', caseNumber: 'EVB11457' },
-  { borough: 'BRONX', year: '2017', address: '366 EAST 154TH ST.', caseNumber: 'EV17716' },
-  { borough: 'BRONX', year: '2018', address: '3536 HULL AVENUE', caseNumber: 'EV35810' },
-  { borough: 'QUEENS', year: '2023', address: '105-08 95 AVENUE APT. NO. BASEMENT- REAR ENTRANCE BASEMENT FLOOR', caseNumber: 'EV0302822' },
-  { borough: 'BROOKLYN', year: '2017', address: '556 WILSON AVENUE', caseNumber: 'EV90852' },
-  { borough: 'MANHATTAN', year: '2017', address: '460 WEST 147TH STREET', caseNumber: 'EV81244' },
-  { borough: 'QUEENS', year: '2017', address: '98-23 HORACE HARDING EXPWY.', caseNumber: 'EV51950' },
-  { borough: 'BRONX', year: '2019', address: '2913 BOUCK AVENUE', caseNumber: 'EV61806' },
-  { borough: 'QUEENS', year: '2018', address: '97-05 HORACE HARDING EXPWY.', caseNumber: 'EV56881' },
-  { borough: 'QUEENS', year: '2018', address: '84-05 108TH STREET', caseNumber: 'EV79249' },
-  { borough: 'BROOKLYN', year: '2019', address: '4019 AVENUE K', caseNumber: 'EV76786' },
-  { borough: 'BROOKLYN', year: '2019', address: '734 EAST 38TH ST. 1ST FLOOR DUPLEX APT', caseNumber: 'EV62202' },
-  { borough: 'BRONX', year: '2019', address: '3620 OXFORD AVENUE', caseNumber: 'EV48797' },
-  { borough: 'BROOKLYN', year: '2018', address: '32 HERKIMER STREET', caseNumber: 'EV66029' },
-  { borough: 'BROOKLYN', year: '2018', address: '745 GATES AVENUE', caseNumber: 'EV93006' },
-  { borough: 'BROOKLYN', year: '2017', address: '56 VERMONT STREET', caseNumber: 'EV97390' }
-];
-
+    <div id="output"></div>
 
     
-    function displayEvictionCards() {
-      const boroughFilter = document.getElementById('filterBorough').value.toUpperCase();
-      const yearFilter = document.getElementById('filterYear').value;
+    <div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2020-03-10</p>
+  <p><strong>Address:</strong> 574 WEST 176TH ST Apt 32</p>
+  <p><strong>Borough:</strong> MANHATTAN</p>
+  <p><strong>Longitude:</strong> -73.935440</p>
+  <p><strong>Latitude:</strong> 40.845828</p>
+</div>
 
-      const filteredData = evictionData.filter(item => {
-        const matchesBorough = boroughFilter ? item.borough.toUpperCase() === boroughFilter : true;
-        const matchesYear = yearFilter ? item.year === yearFilter : true;
-        return matchesBorough && matchesYear;
-      });
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2019-05-30</p>
+  <p><strong>Address:</strong> 637 EAST 224TH ST Apt 4F</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.862843</p>
+  <p><strong>Latitude:</strong> 40.887742</p>
+</div>
 
-      const evictionCardsContainer = document.getElementById('evictionCards');
-      evictionCardsContainer.innerHTML = ''; 
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2017-11-15</p>
+  <p><strong>Address:</strong> 395 EAST 151ST STREET Apt 1A</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.917501</p>
+  <p><strong>Latitude:</strong> 40.817621</p>
+</div>
 
-      filteredData.forEach(item => {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.innerHTML = `
-          <h3>Case Number: ${item.caseNumber}</h3>
-          <p><strong>Borough:</strong> ${item.borough}</p>
-          <p><strong>Year:</strong> ${item.year}</p>
-          <p><strong>Address:</strong> ${item.address}</p>
-        `;
-        evictionCardsContainer.appendChild(card);
-      });
-    }
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2019-08-12</p>
+  <p><strong>Address:</strong> 69 EAST 94TH STREET Apt 1R</p>
+  <p><strong>Borough:</strong> BROOKLYN</p>
+  <p><strong>Longitude:</strong> -73.926692</p>
+  <p><strong>Latitude:</strong> 40.663344</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2018-08-16</p>
+  <p><strong>Address:</strong> 1970 EAST TREMONT AVENUE Apt 10G</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.861040</p>
+  <p><strong>Latitude:</strong> 40.841585</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2023-10-24</p>
+  <p><strong>Address:</strong> 1632 UNDERCLIFF AVE Apt 3G</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.921958</p>
+  <p><strong>Latitude:</strong> 40.849149</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2017-08-01</p>
+  <p><strong>Address:</strong> 352 BROOK AVENUE Apt 4F</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.917738</p>
+  <p><strong>Latitude:</strong> 40.810097</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2019-07-26</p>
+  <p><strong>Address:</strong> 1209 DEKALB AVENUE Apt 201</p>
+  <p><strong>Borough:</strong> BROOKLYN</p>
+  <p><strong>Longitude:</strong> -73.927796</p>
+  <p><strong>Latitude:</strong> 40.695599</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2018-04-24</p>
+  <p><strong>Address:</strong> 1365 ST NICHOLAS AVE Apt 20M</p>
+  <p><strong>Borough:</strong> MANHATTAN</p>
+  <p><strong>Longitude:</strong> -73.934871</p>
+  <p><strong>Latitude:</strong> 40.847780</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2017-01-26</p>
+  <p><strong>Address:</strong> 1334 LOUIS NINE BLVD Apt 7L</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.892337</p>
+  <p><strong>Latitude:</strong> 40.831535</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2023-02-07</p>
+  <p><strong>Address:</strong> 3203 BOSTON ROAD THE REAR LOT OF 3203</p>
+  <p><strong>Borough:</strong> BRONX</p>
+  <p><strong>Longitude:</strong> -73.855927</p>
+  <p><strong>Latitude:</strong> 40.871376</p>
+</div>
+
+<div class="card">
+  <h3>Eviction Case </h3>
+  <p><strong>Date:</strong> 2024-04-01</p>
+  <p><strong>Address:</strong> 1024 WINTHROP STREET Apt 2R</p>
+  <p><strong>Borough:</strong> BROOKLYN</p>
+  <p><strong>Longitude:</strong> -73.925542</p>
+  <p><strong>Latitude:</strong> 40.660398</p>
+</div>
 
     
-    function searchFunction() {
-      var input, filter, ul, li, a, i, txtValue;
-      input = document.getElementById('myInput');
-      filter = input.value.toUpperCase();
-      ul = document.getElementById("myUL");
-      ul.innerHTML = ""; 
+  </div>
+</div>
 
+<div class="footer">
+  <p></p>
+</div>
 
-      evictionData.forEach(item => {
-        if (item.address.toUpperCase().includes(filter) || item.caseNumber.toUpperCase().includes(filter)) {
-          const li = document.createElement("li");
-          li.innerHTML = `<a href="#">${item.caseNumber} - ${item.address}</a>`;
-          ul.appendChild(li);
-        }
-      });
-    }
+<script>
+  
 
-    
-    document.getElementById('filterBorough').addEventListener('change', displayEvictionCards);
-    document.getElementById('filterYear').addEventListener('change', displayEvictionCards);
+    output.innerHTML = build 
 
+</script>
 
-    displayEvictionCards();
-  </script>
 </body>
 </html>
